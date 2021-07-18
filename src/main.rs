@@ -3,17 +3,22 @@
 // TO DO:
 // Consider making union type of " ", "X", and "O" ?
 
-struct Board {
-    // a 3x3 board
-    board: [[u8; 3]; 3],
+enum Square {
+    Null,
+    X,
+    O,
 }
 
-fn format(n: &u8) -> String {
-    match n {
-        0 => " ",
-        1 => "X",
-        2 => "O",
-        _ => panic!("not valid"),
+struct Board {
+    // a 3x3 board
+    board: [[Square; 3]; 3],
+}
+
+fn format(s: &Square) -> String {
+    match s {
+        Square::Null => " ",
+        Square::X => "X",
+        Square::O => "O",
     }
     .to_string()
 }
@@ -35,7 +40,7 @@ impl Board {
 
 fn main() {
     let b = Board {
-        board: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+        board: [[Square::Null, Square::Null, Square::Null], [Square::Null, Square::Null, Square::Null], [Square::Null, Square::Null, Square::Null]],
     };
     Board::print(&b);
 }
