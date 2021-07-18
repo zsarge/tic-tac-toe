@@ -48,27 +48,34 @@ fn get_input() -> String {
     io::stdin()
         .read_line(&mut input)
         .expect("error: unable to read user input");
-    println!("DEBUG: {}", input);
-    input
-}
-
-fn get_filtered_input() -> u8 {
-    let mut valid = false;
-    let mut input = 0;
-    while !valid {
-        input = get_input().trim_end().parse::<u8>().unwrap();
-        valid = match input {
-            1..=9 => true,
-            _ => false,
-        };
-        if !valid {
-            println!("Please enter a number from 1 to 9.");
-        }
-    }
     input
 }
 
 impl Board {
+    fn get_filtered_input(&mut self) -> u8 {
+        let mut valid = false;
+        let mut input = 0;
+        while !valid {
+            input = get_input().trim_end().parse::<u8>().unwrap();
+            valid = match input {
+                1..=9 => true,
+                _ => false,
+            };
+            // if it's from 1 to 9, check if it has already been chosen.
+            // you can't move into a space that has already been chosen.
+            if valid {
+                let (x, y) = self.get_pos_from_choice(input);
+                valid = self.check_is_safe(x, y);
+            }
+
+            if !valid {
+                println!("Please enter a number from 1 to 9.");
+            }
+        }
+        
+        input
+    }
+
     fn print(&self) {
         println!("");
         for (index, row) in self.board.iter().enumerate() {
@@ -88,14 +95,28 @@ impl Board {
         };
     }
 
-    fn move_to(&mut self, choice: u8) {
-        let y = match choice { // I'm sure there's a better way to do this
+    fn get_pos_from_choice(&mut self, choice: u8) -> (usize, usize) {
+        let y = match choice {
+            // I'm sure there's a better way to do this
             1..=3 => 0,
             4..=6 => 1,
             7..=9 => 2,
-            _ => panic!("can only move to values from 1 to 9")
+            _ => panic!("can only move to values from 1 to 9"),
         };
         let x = usize::from((choice - 1) % 3);
+        (x, y)
+    }
+
+    // you can't move where someone already moved:
+    fn check_is_safe(&mut self, x: usize, y: usize) -> bool {
+        match self.board[y][x] {
+            Square::Value(_) => true,
+            _ => false,
+        }
+    }
+
+    fn move_to(&mut self, choice: u8) {
+        let (x, y) = self.get_pos_from_choice(choice);
         self.board[y][x] = match self.turn {
             Turn::O => Square::O,
             Turn::X => Square::X,
@@ -106,7 +127,7 @@ impl Board {
         Board::print(self);
 
         println!("- {} move: ", self.turn);
-        let input = get_filtered_input();
+        let input = self.get_filtered_input();
         Board::move_to(self, input);
 
         Board::alternate(self);
