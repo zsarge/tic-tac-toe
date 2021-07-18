@@ -97,9 +97,9 @@ impl Board {
         };
     }
 
+    // get x and y values from index in entire matrix:
     fn get_pos_from_choice(&mut self, choice: u8) -> (usize, usize) {
         let y = match choice {
-            // I'm sure there's a better way to do this
             1..=3 => 0,
             4..=6 => 1,
             7..=9 => 2,
@@ -117,6 +117,7 @@ impl Board {
         }
     }
 
+    // set choice to current user
     fn move_to(&mut self, choice: u8) {
         let (x, y) = self.get_pos_from_choice(choice);
         self.board[y][x] = match self.turn {
@@ -125,6 +126,7 @@ impl Board {
         }
     }
 
+    // leverage fmt::Display to compare Squares
     fn are_equal(&mut self, (x1, y1): (usize, usize), (x2, y2): (usize, usize)) -> bool {
         self.board[y1][x1].to_string() == self.board[y2][x2].to_string()
     }
@@ -177,6 +179,7 @@ impl Board {
 
 fn main() {
     let mut b = Board {
+        // board must be labled in this order
         board: [
             [Square::Value(1), Square::Value(2), Square::Value(3)],
             [Square::Value(4), Square::Value(5), Square::Value(6)],
