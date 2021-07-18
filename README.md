@@ -7,6 +7,7 @@ This is not a fully featured tic-tac-toe game, but it runs the basic game.
 <details>
 	<summary> Example output: </summary>
 
+```
  1 | 2 | 3
 ---+---+---
  4 | 5 | 6
@@ -81,6 +82,7 @@ This is not a fully featured tic-tac-toe game, but it runs the basic game.
  O | 8 | X
 
 Game over!
+```
 
 </details>
 
