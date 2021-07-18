@@ -64,13 +64,16 @@ impl Board {
                 _ => false,
             };
 
-            // check if choice has been chosen
             if valid {
                 let (x, y) = self.get_pos_from_choice(input);
                 valid = self.check_is_safe(x, y);
-            }
 
-            if !valid {
+                if !valid {
+                    // check_is_safe returned false
+                    println!("Please enter a number that has not been chosen.");
+                }
+            } else { 
+                // number was not from 1 to 9
                 println!("Please enter a number from 1 to 9.");
             }
         }
