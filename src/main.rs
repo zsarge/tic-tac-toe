@@ -57,12 +57,14 @@ impl Board {
         let mut input = 0;
         while !valid {
             input = get_input().trim_end().parse::<u8>().unwrap();
+
+            // check if choice is on board
             valid = match input {
                 1..=9 => true,
                 _ => false,
             };
-            // if it's from 1 to 9, check if it has already been chosen.
-            // you can't move into a space that has already been chosen.
+
+            // check if choice has been chosen
             if valid {
                 let (x, y) = self.get_pos_from_choice(input);
                 valid = self.check_is_safe(x, y);
