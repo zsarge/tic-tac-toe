@@ -2,7 +2,6 @@
 
 use std::fmt;
 use std::io;
-use std::io::*;
 
 // A square in a tic-tac-toe board
 enum Square {
@@ -44,12 +43,28 @@ struct Board {
     turn: Turn,
 }
 
-fn take_input() -> String {
+fn get_input() -> String {
     let mut input = String::new();
     io::stdin()
         .read_line(&mut input)
         .expect("error: unable to read user input");
     println!("DEBUG: {}", input);
+    input
+}
+
+fn get_filtered_input() -> u8 {
+    let mut valid = false;
+    let mut input = 0;
+    while !valid {
+        input = get_input().trim_end().parse::<u8>().unwrap();
+        valid = match input {
+            1..=9 => true,
+            _ => false,
+        };
+        if !valid {
+            println!("Please enter a number from 1 to 9.");
+        }
+    }
     input
 }
 
@@ -77,7 +92,8 @@ impl Board {
         Board::print(self);
 
         println!("- {} move: ", self.turn);
-        let input = take_input();
+        let input = get_filtered_input();
+
         Board::alternate(self);
     }
 }
@@ -93,7 +109,7 @@ fn main() {
         turn: Turn::X,
     };
 
-    loop {
+    while !b.won {
         Board::prompt(&mut b);
     }
 }
