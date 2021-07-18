@@ -125,18 +125,28 @@ impl Board {
         }
     }
 
+    fn are_equal(&mut self, (x1, y1): (usize, usize), (x2, y2): (usize, usize)) -> bool {
+        self.board[y1][x1].to_string() == self.board[y2][x2].to_string()
+    }
+
     fn has_won(&mut self) -> bool {
-        let horizontal = self.board.iter().map(|row| {
-            row[0].to_string() == row[1].to_string() && row[1].to_string() == row[2].to_string()
-        });
+        let vertical = (0..3).map(|x| 
+            self.are_equal((x, 0), (x, 1)) &&
+            self.are_equal((x, 1), (x, 2))
+        ).into_iter().any(|w| w == true);
 
-        let vertical = (0..3).map(|x| {
-            self.board[0][x].to_string() == self.board[1][x].to_string() &&
-            self.board[1][x].to_string() == self.board[2][x].to_string() 
-        });
+        let horizontal = (0..3).map(|y| 
+            self.are_equal((0, y), (1, y)) && 
+            self.are_equal((1, y), (2, y))
+        ).into_iter().any(|w| w == true);
 
-        horizontal.into_iter().any(|x| x == true) ||
-        vertical.into_iter().any(|x| x == true)
+        let left_diagonal = self.are_equal((0, 0), (1, 1)) && 
+                            self.are_equal((1, 1), (2, 2));
+
+        let right_diagonal = self.are_equal((2, 0), (1, 1)) && 
+                             self.are_equal((1, 1), (0, 2));
+
+        horizontal || vertical || left_diagonal || right_diagonal
     }
 
     fn prompt(&mut self) {
