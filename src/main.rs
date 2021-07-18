@@ -126,9 +126,10 @@ impl Board {
     }
 
     fn has_won(&mut self) -> bool {
-        // check first row
-        let first = self.board[0][0].to_string();
-        self.board[0].iter().all(|item| first.eq(&item.to_string()))
+        let top = self.board.iter().map(|row| {
+            row[0].to_string() == row[1].to_string() && row[1].to_string() == row[2].to_string()
+        });
+        top.into_iter().any(|x| x == true)
     }
 
     fn prompt(&mut self) {
