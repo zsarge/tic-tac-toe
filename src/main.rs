@@ -66,16 +66,24 @@ impl Board {
         println!("");
     }
 
-    fn prompt(&self) {
+    fn alternate(&mut self) {
+        self.turn = match self.turn {
+            Turn::O => Turn::X,
+            Turn::X => Turn::O,
+        };
+    }
+
+    fn prompt(&mut self) {
         Board::print(self);
 
         println!("- {} move: ", self.turn);
         let input = take_input();
+        Board::alternate(self);
     }
 }
 
 fn main() {
-    let b = Board {
+    let mut b = Board {
         board: [
             [Square::Value(1), Square::Value(2), Square::Value(3)],
             [Square::Value(4), Square::Value(5), Square::Value(6)],
@@ -85,5 +93,7 @@ fn main() {
         turn: Turn::X,
     };
 
-    Board::prompt(&b);
+    loop {
+        Board::prompt(&mut b);
+    }
 }
