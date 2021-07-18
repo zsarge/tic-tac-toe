@@ -126,10 +126,17 @@ impl Board {
     }
 
     fn has_won(&mut self) -> bool {
-        let top = self.board.iter().map(|row| {
+        let horizontal = self.board.iter().map(|row| {
             row[0].to_string() == row[1].to_string() && row[1].to_string() == row[2].to_string()
         });
-        top.into_iter().any(|x| x == true)
+
+        let vertical = (0..3).map(|x| {
+            self.board[0][x].to_string() == self.board[1][x].to_string() &&
+            self.board[1][x].to_string() == self.board[2][x].to_string() 
+        });
+
+        horizontal.into_iter().any(|x| x == true) ||
+        vertical.into_iter().any(|x| x == true)
     }
 
     fn prompt(&mut self) {
@@ -158,4 +165,6 @@ fn main() {
     while !b.won {
         Board::prompt(&mut b);
     }
+    b.print();
+    println!("Game over!");
 }
