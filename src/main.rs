@@ -4,7 +4,7 @@ use std::fmt;
 
 // A square in a tic-tac-toe board
 enum Square {
-    Null,
+    Value(u8),
     X,
     O,
 }
@@ -12,9 +12,9 @@ enum Square {
 impl fmt::Display for Square {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let printable = match *self {
-            Square::Null => '*',
-            Square::X => 'X',
-            Square::O => 'O',
+            Square::Value(x) => x.to_string(),
+            Square::X => "X".to_string(),
+            Square::O => "O".to_string(),
         };
         write!(f, "{}", printable)
     }
@@ -39,7 +39,11 @@ impl Board {
 
 fn main() {
     let b = Board {
-        board: [[Square::Null, Square::Null, Square::Null], [Square::Null, Square::Null, Square::Null], [Square::Null, Square::Null, Square::Null]],
+        board: [
+            [Square::Value(1), Square::Value(2), Square::Value(3)],
+            [Square::Value(4), Square::Value(5), Square::Value(6)],
+            [Square::Value(7), Square::Value(8), Square::Value(9)],
+        ],
     };
     Board::print(&b);
 }
