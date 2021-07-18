@@ -7,11 +7,11 @@ struct Board {
 
 impl Board {
     fn print(&self) {
-        for i in self.board.iter() {
+        for row in self.board.iter() {
             print!("[");
-            for (idx, val) in i.iter().enumerate() {
+            for (idx, val) in row.iter().enumerate() {
                 print!("{}", val);
-                if idx < i.len() - 1 {
+                if idx < row.len() - 1 {
                     print!(", ");
                 }
             }
