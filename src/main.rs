@@ -70,11 +70,11 @@ impl Board {
 
                 if !valid {
                     // check_is_safe returned false
-                    println!("Please enter a number that has not been chosen.");
+                    println!("- Please enter a number that has not been chosen.");
                 }
             } else { 
                 // number was not from 1 to 9
-                println!("Please enter a number from 1 to 9.");
+                println!("- Please enter a number from 1 to 9.");
             }
         }
 
