@@ -129,6 +129,18 @@ impl Board {
         self.board[y1][x1].to_string() == self.board[y2][x2].to_string()
     }
 
+    fn all_moves_taken(&mut self) -> bool {
+        for row in self.board.iter() {
+            for value in row.iter() {
+                match value {
+                    Square::Value(_) => return false,
+                    _ => (),
+                }
+            }
+        }
+        true
+    }
+
     fn has_won(&mut self) -> bool {
         let vertical = (0..3).map(|x| 
             self.are_equal((x, 0), (x, 1)) &&
@@ -146,7 +158,9 @@ impl Board {
         let right_diagonal = self.are_equal((2, 0), (1, 1)) && 
                              self.are_equal((1, 1), (0, 2));
 
-        horizontal || vertical || left_diagonal || right_diagonal
+        let all_taken = self.all_moves_taken();
+
+        horizontal || vertical || left_diagonal || right_diagonal || all_taken
     }
 
     fn prompt(&mut self) {
