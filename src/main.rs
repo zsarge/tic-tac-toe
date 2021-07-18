@@ -126,13 +126,13 @@ impl Board {
     }
 
     fn prompt(&mut self) {
-        Board::print(self);
+        self.print();
 
-        println!("- {} move: ", self.turn);
+        println!("- {0}'s move: ", self.turn);
         let input = self.get_filtered_input();
-        Board::move_to(self, input);
+        self.move_to(input);
 
-        Board::alternate(self);
+        self.alternate();
     }
 }
 
