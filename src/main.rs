@@ -88,11 +88,26 @@ impl Board {
         };
     }
 
+    fn move_to(&mut self, choice: u8) {
+        let y = match choice { // I'm sure there's a better way to do this
+            1..=3 => 0,
+            4..=6 => 1,
+            7..=9 => 2,
+            _ => panic!("can only move to values from 1 to 9")
+        };
+        let x = usize::from((choice - 1) % 3);
+        self.board[y][x] = match self.turn {
+            Turn::O => Square::O,
+            Turn::X => Square::X,
+        }
+    }
+
     fn prompt(&mut self) {
         Board::print(self);
 
         println!("- {} move: ", self.turn);
         let input = get_filtered_input();
+        Board::move_to(self, input);
 
         Board::alternate(self);
     }
