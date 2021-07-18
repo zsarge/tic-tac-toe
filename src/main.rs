@@ -125,12 +125,19 @@ impl Board {
         }
     }
 
+    fn has_won(&mut self) -> bool {
+        // check first row
+        let first = self.board[0][0].to_string();
+        self.board[0].iter().all(|item| first.eq(&item.to_string()))
+    }
+
     fn prompt(&mut self) {
         self.print();
 
         println!("- {0}'s move: ", self.turn);
         let input = self.get_filtered_input();
         self.move_to(input);
+        self.won = self.has_won();
 
         self.alternate();
     }
