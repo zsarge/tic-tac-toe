@@ -72,7 +72,7 @@ impl Board {
                 println!("Please enter a number from 1 to 9.");
             }
         }
-        
+
         input
     }
 
