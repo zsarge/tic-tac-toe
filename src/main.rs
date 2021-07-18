@@ -13,8 +13,9 @@ fn format(n: &u8) -> String {
         0 => " ",
         1 => "X",
         2 => "O",
-        _ => panic!("not valid")
-    }.to_string()
+        _ => panic!("not valid"),
+    }
+    .to_string()
 }
 
 impl Board {
