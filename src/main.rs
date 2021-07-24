@@ -40,6 +40,7 @@ struct Board {
     // a 3x3 board
     board: [[Square; 3]; 3],
     won: bool,
+    win_message: String,
     turn: Turn,
 }
 
@@ -130,11 +131,11 @@ impl Board {
     }
 
     // leverage fmt::Display to compare Squares
-    fn are_equal(&mut self, (x1, y1): (usize, usize), (x2, y2): (usize, usize)) -> bool {
+    fn are_equal(&self, (x1, y1): (usize, usize), (x2, y2): (usize, usize)) -> bool {
         self.board[y1][x1].to_string() == self.board[y2][x2].to_string()
     }
 
-    fn all_moves_taken(&mut self) -> bool {
+    fn all_moves_taken(&self) -> bool {
         for row in self.board.iter() {
             for value in row.iter() {
                 match value {
@@ -146,26 +147,45 @@ impl Board {
         true
     }
 
-    fn has_won(&mut self) -> bool {
-        let vertical = (0..3).map(|x| 
-            self.are_equal((x, 0), (x, 1)) &&
-            self.are_equal((x, 1), (x, 2))
-        ).into_iter().any(|w| w == true);
+    // says that the person at (x,y) won
+    fn _set_won(&mut self, x: usize, y: usize) {
+            self.won = true;
+            self.win_message = format!("{0} won!", self.board[y][x]);
+    }
 
-        let horizontal = (0..3).map(|y| 
-            self.are_equal((0, y), (1, y)) && 
-            self.are_equal((1, y), (2, y))
-        ).into_iter().any(|w| w == true);
+    fn set_game_state(&mut self) {
+        // check vertical
+        for x in 0..3 {
+            if self.are_equal((x, 0), (x, 1)) && self.are_equal((x, 1), (x, 2)) {
+                self._set_won(x, 0);
+                return;
+            }
+        }
 
-        let left_diagonal = self.are_equal((0, 0), (1, 1)) && 
-                            self.are_equal((1, 1), (2, 2));
+        // check horizontal
+        for y in 0..3 {
+            if self.are_equal((0, y), (1, y)) && self.are_equal((1, y), (2, y)) {
+                self._set_won(0, y);
+                return;
+            }
+        }
 
-        let right_diagonal = self.are_equal((2, 0), (1, 1)) && 
-                             self.are_equal((1, 1), (0, 2));
+        // check left diagonal 
+        if self.are_equal((0, 0), (1, 1)) && self.are_equal((1, 1), (2, 2)) {
+            self._set_won(0, 0);
+            return;
+        }
 
-        let all_taken = self.all_moves_taken();
+        // check right diagonal
+        if self.are_equal((2, 0), (1, 1)) && self.are_equal((1, 1), (0, 2)) {
+            self._set_won(2, 0);
+            return;
+        }
 
-        horizontal || vertical || left_diagonal || right_diagonal || all_taken
+        if self.all_moves_taken() {
+            self.won = true;
+            self.win_message = "Stalemate!".to_string();
+        }
     }
 
     fn prompt(&mut self) {
@@ -174,7 +194,7 @@ impl Board {
         println!("- {0}'s move: ", self.turn);
         let input = self.get_filtered_input();
         self.move_to(input);
-        self.won = self.has_won();
+        self.set_game_state();
 
         self.alternate();
     }
@@ -189,6 +209,7 @@ fn main() {
             [Square::Value(7), Square::Value(8), Square::Value(9)],
         ],
         won: false,
+        win_message: "".to_string(),
         turn: Turn::X,
     };
 
@@ -197,4 +218,5 @@ fn main() {
     }
     b.print();
     println!("Game over!");
+    println!("{}", b.win_message);
 }
