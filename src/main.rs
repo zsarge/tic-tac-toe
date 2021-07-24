@@ -214,7 +214,7 @@ fn main() {
     };
 
     while !b.won {
-        Board::prompt(&mut b);
+        b.prompt();
     }
     b.print();
     println!("Game over!");
