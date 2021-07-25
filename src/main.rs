@@ -3,6 +3,9 @@
 use std::fmt;
 use std::io;
 
+#[cfg(test)]
+mod tests;
+
 // A square in a tic-tac-toe board
 enum Square {
     Value(u8),
@@ -220,3 +223,4 @@ fn main() {
     println!("Game over!");
     println!("{}", b.win_message);
 }
+
