@@ -220,7 +220,7 @@ fn test_vertical_4() {
 #[test]
 fn test_get_pos_from_choice_1() {
     // Board does not really matter
-    let mut b = Board {
+    let b = Board {
         board: [
             [Square::Value(1), Square::Value(2), Square::Value(3)],
             [Square::Value(4), Square::Value(5), Square::Value(6)],

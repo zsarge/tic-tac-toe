@@ -105,7 +105,7 @@ impl Board {
     }
 
     // get x and y values from index in entire matrix:
-    fn get_pos_from_choice(&mut self, choice: u8) -> (usize, usize) {
+    fn get_pos_from_choice(&self, choice: u8) -> (usize, usize) {
         let y = match choice {
             1..=3 => 0,
             4..=6 => 1,
