@@ -138,3 +138,100 @@ fn test_horizontal_3() {
 }
 
 
+#[test]
+fn test_vertical_1() {
+    //! test vertical in first column
+    let mut b = Board {
+        board: [
+            [Square::O, Square::Value(2), Square::Value(3)],
+            [Square::O, Square::Value(5), Square::Value(6)],
+            [Square::O, Square::Value(8), Square::Value(9)],
+        ],
+        won: false,
+        win_message: "".to_string(),
+        turn: Turn::X,
+    };
+    assert!(b.all_moves_taken() == false);
+    b.set_game_state();
+    assert!(b.won == true);
+    assert!(b.win_message.contains("O"));
+}
+
+
+#[test]
+fn test_vertical_2() {
+    //! test vertical in first column
+    let mut b = Board {
+        board: [
+            [Square::X, Square::Value(2), Square::Value(3)],
+            [Square::X, Square::Value(5), Square::Value(6)],
+            [Square::X, Square::Value(8), Square::Value(9)],
+        ],
+        won: false,
+        win_message: "".to_string(),
+        turn: Turn::X,
+    };
+    assert!(b.all_moves_taken() == false);
+    b.set_game_state();
+    assert!(b.won == true);
+    assert!(b.win_message.contains("X"));
+}
+
+#[test]
+fn test_vertical_3() {
+    //! test vertical in middle column
+    let mut b = Board {
+        board: [
+            [Square::Value(1), Square::O, Square::Value(3)],
+            [Square::Value(4), Square::O, Square::Value(6)],
+            [Square::Value(7), Square::O, Square::Value(9)],
+        ],
+        won: false,
+        win_message: "".to_string(),
+        turn: Turn::X,
+    };
+    assert!(b.all_moves_taken() == false);
+    b.set_game_state();
+    assert!(b.won == true);
+    assert!(b.win_message.contains("O"));
+}
+
+#[test]
+fn test_vertical_4() {
+    //! test vertical in last column
+    let mut b = Board {
+        board: [
+            [Square::Value(1), Square::Value(2), Square::O],
+            [Square::Value(4), Square::Value(5), Square::O],
+            [Square::Value(7), Square::Value(8), Square::O],
+        ],
+        won: false,
+        win_message: "".to_string(),
+        turn: Turn::X,
+    };
+    assert!(b.all_moves_taken() == false);
+    assert!(b.won == false);
+    b.set_game_state();
+    assert!(b.won == true);
+    assert!(b.win_message.contains("O"));
+}
+
+
+#[test]
+fn test_get_pos_from_choice_1() {
+    // Board does not really matter
+    let mut b = Board {
+        board: [
+            [Square::Value(1), Square::Value(2), Square::Value(3)],
+            [Square::Value(4), Square::Value(5), Square::Value(6)],
+            [Square::Value(7), Square::Value(8), Square::Value(9)],
+        ],
+        won: false,
+        win_message: "".to_string(),
+        turn: Turn::X,
+    };
+    
+    assert!(b.get_pos_from_choice(1) == (0,0));
+}
+
+
