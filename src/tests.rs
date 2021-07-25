@@ -231,7 +231,55 @@ fn test_get_pos_from_choice_1() {
         turn: Turn::X,
     };
     
-    assert!(b.get_pos_from_choice(1) == (0,0));
+    // boring code is readable code
+    assert!(b.get_pos_from_choice(1) == (0, 0));
+    assert!(b.get_pos_from_choice(2) == (1, 0));
+    assert!(b.get_pos_from_choice(3) == (2, 0));
+    assert!(b.get_pos_from_choice(4) == (0, 1));
+    assert!(b.get_pos_from_choice(5) == (1, 1));
+    assert!(b.get_pos_from_choice(6) == (2, 1));
+    assert!(b.get_pos_from_choice(7) == (0, 2));
+    assert!(b.get_pos_from_choice(8) == (1, 2));
+    assert!(b.get_pos_from_choice(9) == (2, 2));
 }
 
 
+#[test]
+#[should_panic]
+fn test_get_pos_from_choice_2() {
+    // Board does not really matter
+    let b = Board {
+        board: [
+            [Square::Value(1), Square::Value(2), Square::Value(3)],
+            [Square::Value(4), Square::Value(5), Square::Value(6)],
+            [Square::Value(7), Square::Value(8), Square::Value(9)],
+        ],
+        won: false,
+        win_message: "".to_string(),
+        turn: Turn::X,
+    };
+    
+    b.get_pos_from_choice(10);
+}
+
+#[test]
+fn test_check_is_safe() {
+    let mut b = Board {
+        board: [
+            [Square::X,        Square::Value(2), Square::Value(3)],
+            [Square::Value(4), Square::Value(5), Square::Value(6)],
+            [Square::Value(7), Square::Value(8), Square::Value(9)],
+        ],
+        won: false,
+        win_message: "".to_string(),
+        turn: Turn::X,
+    };
+    
+    // boring code is readable code
+    assert!(b.check_is_safe(0,0) == false);
+
+    for i in 2..=9 {
+        let (x, y) = b.get_pos_from_choice(i);
+        assert!(b.check_is_safe(x, y) == true);
+    }
+}
