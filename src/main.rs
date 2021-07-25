@@ -76,7 +76,7 @@ impl Board {
                     // check_is_safe returned false
                     println!("- Please enter a number that has not been chosen.");
                 }
-            } else { 
+            } else {
                 // number was not from 1 to 9
                 println!("- Please enter a number from 1 to 9.");
             }
@@ -152,8 +152,8 @@ impl Board {
 
     // says that the person at (x,y) won
     fn _set_won(&mut self, x: usize, y: usize) {
-            self.won = true;
-            self.win_message = format!("{0} won!", self.board[y][x]);
+        self.won = true;
+        self.win_message = format!("{0} won!", self.board[y][x]);
     }
 
     fn set_game_state(&mut self) {
@@ -173,7 +173,7 @@ impl Board {
             }
         }
 
-        // check left diagonal 
+        // check left diagonal
         if self.are_equal((0, 0), (1, 1)) && self.are_equal((1, 1), (2, 2)) {
             self._set_won(0, 0);
             return;
@@ -223,4 +223,3 @@ fn main() {
     println!("Game over!");
     println!("{}", b.win_message);
 }
-

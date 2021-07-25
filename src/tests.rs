@@ -77,7 +77,6 @@ fn test_diagonal_3() {
     assert!(b.win_message != "".to_string());
 }
 
-
 #[test]
 fn test_horizontal_1() {
     //! test horizontal in top row
@@ -96,7 +95,6 @@ fn test_horizontal_1() {
     assert!(b.won == true);
     assert!(b.win_message.contains("O"));
 }
-
 
 #[test]
 fn test_horizontal_2() {
@@ -117,7 +115,6 @@ fn test_horizontal_2() {
     assert!(b.win_message.contains("O"));
 }
 
-
 #[test]
 fn test_horizontal_3() {
     //! test horizontal in last row
@@ -137,7 +134,6 @@ fn test_horizontal_3() {
     assert!(b.win_message.contains("O"));
 }
 
-
 #[test]
 fn test_vertical_1() {
     //! test vertical in first column
@@ -156,7 +152,6 @@ fn test_vertical_1() {
     assert!(b.won == true);
     assert!(b.win_message.contains("O"));
 }
-
 
 #[test]
 fn test_vertical_2() {
@@ -216,7 +211,6 @@ fn test_vertical_4() {
     assert!(b.win_message.contains("O"));
 }
 
-
 #[test]
 fn test_get_pos_from_choice_1() {
     // Board does not really matter
@@ -230,7 +224,7 @@ fn test_get_pos_from_choice_1() {
         win_message: "".to_string(),
         turn: Turn::X,
     };
-    
+
     // boring code is readable code
     assert!(b.get_pos_from_choice(1) == (0, 0));
     assert!(b.get_pos_from_choice(2) == (1, 0));
@@ -242,7 +236,6 @@ fn test_get_pos_from_choice_1() {
     assert!(b.get_pos_from_choice(8) == (1, 2));
     assert!(b.get_pos_from_choice(9) == (2, 2));
 }
-
 
 #[test]
 #[should_panic]
@@ -258,7 +251,7 @@ fn test_get_pos_from_choice_2() {
         win_message: "".to_string(),
         turn: Turn::X,
     };
-    
+
     b.get_pos_from_choice(10);
 }
 
@@ -266,7 +259,7 @@ fn test_get_pos_from_choice_2() {
 fn test_check_is_safe() {
     let mut b = Board {
         board: [
-            [Square::X,        Square::Value(2), Square::Value(3)],
+            [Square::X, Square::Value(2), Square::Value(3)],
             [Square::Value(4), Square::Value(5), Square::Value(6)],
             [Square::Value(7), Square::Value(8), Square::Value(9)],
         ],
@@ -274,9 +267,9 @@ fn test_check_is_safe() {
         win_message: "".to_string(),
         turn: Turn::X,
     };
-    
+
     // boring code is readable code
-    assert!(b.check_is_safe(0,0) == false);
+    assert!(b.check_is_safe(0, 0) == false);
 
     for i in 2..=9 {
         let (x, y) = b.get_pos_from_choice(i);
